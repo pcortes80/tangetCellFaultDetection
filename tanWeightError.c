@@ -17,6 +17,7 @@ int main()
     double eA = 0.0; // elevation angle (°)
     double zd = 0.0; // zenith distance (°)
     double tanWeight; // tangential total wight (N)
+    double loadBearing2, loadBearing3, loadBearing5, loadBearing6; // load bearing calculations (N) 
     double tanWeightError = 1000.0; // tangential witgh error (N)
     
     // ask user enter values	
@@ -31,17 +32,29 @@ int main()
     printf("Enter Elevation Angle : ");
     scanf("%lf",&eA);
 
-    // calculations
+    // get the zenith distance
     zd = 90.0 - eA;
+
+    // tangential total weight calculation
     tanWeight = (-fa2 - fa3 + fa5 + fa6)*cos(30.0*(PI/180)) - fw*sin(zd*(PI/180));
-    printf("Tangent Weight = %.2lf N\n", tanWeight);	
+      printf("Tangent Weight = %.2lf N\n", tanWeight);	
     double absTanWeight = abs(tanWeight); // absolute value of tanWeight
 
-    // compare the limits
+    // compare limits
     if(absTanWeight >= tanWeightError)
       printf("¡Tangential Load Error!\n");
     else
       printf("No Tangential Load Error\n-");
     
-    return 0;
+    // load bearing calculations
+    loadBearing2 = fa2*cos(30.0*(PI/180)) + (fw*sin(zd*(PI/180)))/4;
+      printf("Load Bearing 2 = %.3lf N\n", loadBearing2); 
+    loadBearing3 = fa3*cos(30.0*(PI/180)) + (fw*sin(zd*(PI/180))/4); 
+      printf("Load Bearing 3 = %.3lf N\n", loadBearing3);
+    loadBearing5 = fa5*cos(30.0*(PI/180)) - (fw*sin(zd*(PI/180))/4); 
+      printf("Load Bearing 5 = %.3lf N\n", loadBearing5);
+    loadBearing6 = fa6*cos(30.0*(PI/180)) - (fw*sin(zd*(PI/180))/4); 
+      printf("Load Bearing 6 = %.3lf N\n", loadBearing6);
+
+   return 0;
 }
